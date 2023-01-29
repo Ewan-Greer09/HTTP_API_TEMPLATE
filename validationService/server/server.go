@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 )
 
-func StartServer() {
+func StartValidationServer() {
 	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Starting HTTP API Template Service...")
 	log.Println("Populating storage...")
 
@@ -24,5 +24,5 @@ func StartServer() {
 	})
 
 	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port :8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8085", router))
 }

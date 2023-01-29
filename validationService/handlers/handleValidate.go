@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
@@ -11,6 +13,7 @@ import (
 // HandleValidate is the handler for the /api/validate endpoint
 // and passed data to the validator
 func HandleValidate(w http.ResponseWriter, r *http.Request) {
+	log.Println("HandleValidate called")
 	jobListing := types.JobListing{}
 
 	err := json.NewDecoder(r.Body).Decode(&jobListing)
@@ -21,8 +24,12 @@ func HandleValidate(w http.ResponseWriter, r *http.Request) {
 
 	//pass jobListing to validator
 	violations := validators.ValidateJobBoardCreateListing(jobListing)
+	log.Println(violations)
 	if len(violations) > 0 {
-		http.Error(w, violations[0].Desc, http.StatusBadRequest)
+		msg := fmt.Errorf("validation failed: %v", violations)
+		http.Error(w, msg.Error(), http.StatusBadRequest)
 		return
 	}
+
+	w.WriteHeader(http.StatusOK)
 }
