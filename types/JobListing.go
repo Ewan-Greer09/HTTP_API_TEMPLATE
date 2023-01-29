@@ -1,12 +1,12 @@
 package types
 
 type JobListing struct {
-	JobID          string  `json:"jobId"`
-	JobTitle       string  `json:"jobTitle"`
-	JobDescription string  `json:"jobDescription"`
-	JobLocation    string  `json:"jobLocation"`
-	JobSalary      float64 `json:"jobSalary"`
-	JobCompany     string  `json:"jobCompany"`
+	JobID          string  `json:"jobId" validate:"required"`
+	JobTitle       string  `json:"jobTitle" validate:"required"`
+	JobDescription string  `json:"jobDescription" validate:"required"`
+	JobLocation    string  `json:"jobLocation" validate:"required"`
+	JobSalary      float64 `json:"jobSalary" validate:"required, numeric"`
+	JobCompany     string  `json:"jobCompany" validate:"required"`
 }
 
 func NewJobListing() JobListing {
