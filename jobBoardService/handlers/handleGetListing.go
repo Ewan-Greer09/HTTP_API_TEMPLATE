@@ -27,6 +27,9 @@ func HandleGetListingByID(storage map[string]types.JobListing) http.HandlerFunc 
 			return
 		}
 
+		//write a response as a json
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 		w.Write(parsedListing)
 	}
 }
