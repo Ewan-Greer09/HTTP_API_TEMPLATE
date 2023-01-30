@@ -10,6 +10,9 @@ import (
 )
 
 func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	getlistingbyidRequestType := r.URL.Query().Get("getlistingbyid")
+
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		http.Error(w, "No Authorization Header", http.StatusUnauthorized)
@@ -37,8 +40,12 @@ func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
 		authRequest.JobListing.JobSalary,
 	)
 
-	err = redirect.RedirectRequestToAPI(jobListing)
+	err = redirect.RedirectRequestToAPI(jobListing, authRequest.RequestType, id)
 	if err != nil {
+		if err.Error() == "404 Not Found" {
+			http.Error(w, "Invalid Request Type", http.StatusBadRequest)
+			return
+		}
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
