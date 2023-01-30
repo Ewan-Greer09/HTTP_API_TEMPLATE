@@ -12,7 +12,21 @@ import (
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/storage"
 )
 
-func StartServer(h *handlers.Handler) {
+type Server struct {
+	Port          string
+	ListenAddress string
+	Handler       *handlers.Handler
+}
+
+func NewServer(h *handlers.Handler, port, listenAddr string) *Server {
+	return &Server{
+		Port:          port,
+		Handler:       h,
+		ListenAddress: listenAddr,
+	}
+}
+
+func (s *Server) StartServer(h *handlers.Handler) {
 	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Starting HTTP API Template Service...")
 	log.Println("Populating storage...")
 	storage := storage.PopulateStorage()
@@ -30,6 +44,6 @@ func StartServer(h *handlers.Handler) {
 		r.Put("/updatelistingbyid/{id}", h.HandleUpdateListingByID(storage))
 	})
 
-	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port :8080")
+	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port ")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

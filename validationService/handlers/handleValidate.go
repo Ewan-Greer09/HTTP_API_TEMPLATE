@@ -12,7 +12,7 @@ import (
 
 // HandleValidate is the handler for the /api/validate endpoint
 // and passed data to the validator
-func HandleValidate(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) HandleValidate(w http.ResponseWriter, r *http.Request) {
 	log.Println("HandleValidate called")
 	jobListing := types.JobListing{}
 
