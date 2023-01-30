@@ -24,7 +24,6 @@ func main() {
 	timestamp := startTime.Format("2006-01-02 15:04:05.000000")
 	log.Println("Start: ", timestamp)
 
-	handler := handlers.NewHandler()
 	server := server.NewServer(handler, port, listenAddr)
 
 	server.StartServer(handler)
