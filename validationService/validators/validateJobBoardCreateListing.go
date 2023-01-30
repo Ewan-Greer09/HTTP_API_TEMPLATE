@@ -13,10 +13,10 @@ type Violation struct {
 	Desc  string
 }
 
-func ValidateJobBoardCreateListing(jobListing types.JobListing) []Violation {
+func ValidateJobBoardPostRequest(jobListing types.JobListing) []Violation {
 	var violations []Violation
 
-	log.Println("ValidateJobBoardCreateListing called")
+	log.Println("ValidateJobBoardPostRequest called")
 
 	validator := validator.New()
 

@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func HandleGetListingByID(storage map[string]types.JobListing) http.HandlerFunc {
+func (h *Handler) HandleGetListingByID(storage map[string]types.JobListing) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 

@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func HandleUpdateListingByID(storage map[string]types.JobListing) http.HandlerFunc {
+func (h *Handler) HandleUpdateListingByID(storage map[string]types.JobListing) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 		if _, ok := storage[id]; !ok {
@@ -21,6 +21,13 @@ func HandleUpdateListingByID(storage map[string]types.JobListing) http.HandlerFu
 		err := json.NewDecoder(r.Body).Decode(&newListing)
 		if err != nil {
 			log.Println("Error decoding request body")
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		err = h.HandleValidateRequest(&newListing)
+		if err != nil {
+			log.Println("Error validating request body")
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
