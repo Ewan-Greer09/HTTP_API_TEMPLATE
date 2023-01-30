@@ -44,6 +44,6 @@ func (s *Server) StartServer(h *handlers.Handler) {
 		r.Put("/updatelistingbyid/{id}", h.HandleUpdateListingByID(storage))
 	})
 
-	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port ")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port "+s.Port)
+	log.Fatal(http.ListenAndServe(s.Port, router))
 }

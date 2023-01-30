@@ -4,18 +4,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/handlers"
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/server"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/handlers"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/server"
 )
 
-//TODO: Call the Auth service once it is online
-//TODO: Move to a Database once it is online
-//TODO: Move to a Docker container once it is online
-//TODO: Move values to a config file once we have one
-//TODO: Add a logger once we have one
-
 const (
-	port       = "8080"
+	port       = ":9090"
 	listenAddr = "localhost"
 )
 
@@ -31,4 +25,5 @@ func main() {
 
 	log.Println("End: ", time.Now())
 	log.Println("Uptime: ", time.Since(startTime))
+
 }

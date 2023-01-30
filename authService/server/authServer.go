@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/validationService/handlers"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/handlers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
@@ -24,9 +24,8 @@ func NewServer(h *handlers.Handler, port, listenAddr string) *Server {
 	}
 }
 
-func (s *Server) StartValidationServer(h *handlers.Handler) {
-	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Starting HTTP API Template Service...")
-	log.Println("Populating storage...")
+func (s *Server) StartServer(h *handlers.Handler) {
+	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Starting HTTP API Auth Service...")
 
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
@@ -34,7 +33,8 @@ func (s *Server) StartValidationServer(h *handlers.Handler) {
 	router.Use(middleware.Timeout(60 * time.Second))
 
 	router.Route("/api", func(r chi.Router) {
-		r.Post("/validate", h.HandleValidate)
+		r.Get("/ping", h.HandlePing)
+		r.Post("/authenticate", h.HandleAuthenticate)
 	})
 
 	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port "+s.Port)
