@@ -1,7 +1,9 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
+)
 
-func HandlePing(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) HandlePing(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("pong"))
 }

@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/handlers"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/server"
 )
 
@@ -18,7 +19,9 @@ func main() {
 	timestamp := startTime.Format("2006-01-02 15:04:05.000000")
 	log.Println("Start: ", timestamp)
 
-	server.StartServer()
+	handler := handlers.NewHandler()
+
+	server.StartServer(handler)
 
 	log.Println("End: ", time.Now())
 	log.Println("Uptime: ", time.Since(startTime))

@@ -22,8 +22,7 @@ func HandleValidate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//pass jobListing to validator
-	violations := validators.ValidateJobBoardCreateListing(jobListing)
+	violations := validators.ValidateJobBoardPostRequest(jobListing)
 	log.Println(violations)
 	if len(violations) > 0 {
 		msg := fmt.Errorf("validation failed: %v", violations)

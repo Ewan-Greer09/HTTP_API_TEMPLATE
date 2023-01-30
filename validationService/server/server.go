@@ -23,6 +23,6 @@ func StartValidationServer() {
 		r.Post("/validate", handlers.HandleValidate)
 	})
 
-	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port :8080")
-	log.Fatal(http.ListenAndServe(":8085", router))
+	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port :3000")
+	log.Fatal(http.ListenAndServe(":3000", router))
 }
