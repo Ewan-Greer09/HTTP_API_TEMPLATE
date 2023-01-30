@@ -13,7 +13,6 @@ import (
 //TODO: Move to a Docker container once it is online
 //TODO: Move values to a config file once we have one
 //TODO: Add a logger once we have one
-//TODO: Make server into a struct
 
 const (
 	port       = "8080"
