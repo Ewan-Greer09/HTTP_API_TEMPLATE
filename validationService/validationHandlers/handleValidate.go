@@ -11,7 +11,7 @@ import (
 )
 
 // HandleValidate is the handler for the /api/validate endpoint
-// and passed data to the validator
+// it parsed passed data to the validator
 func HandleValidate(w http.ResponseWriter, r *http.Request) {
 	log.Println("HandleValidate called")
 	jobListing := types.JobListing{}
@@ -26,8 +26,8 @@ func HandleValidate(w http.ResponseWriter, r *http.Request) {
 	violations := validators.ValidateJobBoardCreateListing(jobListing)
 	log.Println(violations)
 	if len(violations) > 0 {
-		msg := fmt.Errorf("validation failed: %v", violations)
-		http.Error(w, msg.Error(), http.StatusBadRequest)
+		err := fmt.Errorf("validation failed: %v", violations)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

@@ -21,7 +21,12 @@ func ValidateJobBoardCreateListing(jobListing types.JobListing) []Violation {
 	validator := validator.New()
 
 	// TODO: write an algorithm to validate the jobListing
-	errs := validator.Var(jobListing.JobTitle, "required")
+	errs := validator.Var(jobListing.JobID, "required,numeric")
+	if errs != nil {
+		violations = append(violations, Violation{Field: "JobID", Desc: "missing field"})
+	}
+
+	errs = validator.Var(jobListing.JobTitle, "required")
 	if errs != nil {
 		violations = append(violations, Violation{Field: "JobTitle", Desc: "missing field"})
 	}

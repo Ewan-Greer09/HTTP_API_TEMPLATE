@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/validationService/handlers"
+	handlers "github.com/Ewan-Greer09/HTTP_API_TEMPLATE/validationService/validationHandlers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
