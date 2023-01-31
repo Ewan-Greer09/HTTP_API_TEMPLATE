@@ -1,8 +1,8 @@
 package types
 
 type Request struct {
-	RequestType string `json:"requestType"`
-	JobListing  JobListing
+	RequestType string     `json:"requestType"`
+	JobListing  JobListing `json:"jobListing"`
 }
 
 func NewRequest() Request {

@@ -12,7 +12,7 @@ import (
 //TODO: Move values to a config file once we have one
 
 const (
-	port          = "3000"
+	port          = ":3000"
 	listenAddress = "localhost"
 )
 
