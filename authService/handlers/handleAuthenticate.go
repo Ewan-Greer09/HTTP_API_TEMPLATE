@@ -10,6 +10,7 @@ import (
 )
 
 func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
+
 	id := r.URL.Query().Get("id")
 	getlistingbyidRequestType := r.URL.Query().Get("getlistingbyid")
 
@@ -46,6 +47,7 @@ func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Invalid Request Type", http.StatusBadRequest)
 			return
 		}
+
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
