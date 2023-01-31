@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/client"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/client"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
 )
 
