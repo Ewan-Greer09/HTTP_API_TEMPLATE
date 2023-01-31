@@ -40,8 +40,8 @@ func (s *Server) StartServer(h *handlers.Handler) {
 		r.Get("/ping", h.HandlePing)
 		r.Post("/createlisting", h.HandleCreateListing(storage))
 		r.Get("/getlistingbyid/{id}", h.HandleGetListingByID(storage))
-		r.Delete("/deletelistingbyid/{id}", h.HandleDeleteListingByID(storage))
-		r.Put("/updatelistingbyid/{id}", h.HandleUpdateListingByID(storage))
+		r.Post("/deletelistingbyid/{id}", h.HandleDeleteListingByID(storage))
+		r.Post("/updatelistingbyid/{id}", h.HandleUpdateListingByID(storage))
 	})
 
 	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port "+s.Port)

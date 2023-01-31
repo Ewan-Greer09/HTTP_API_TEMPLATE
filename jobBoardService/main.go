@@ -15,7 +15,7 @@ import (
 //TODO: Add a logger once we have one
 
 const (
-	port       = "8080"
+	port       = ":8080"
 	listenAddr = "localhost"
 )
 
