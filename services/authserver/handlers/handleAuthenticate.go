@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/auth"
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/redirect"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/authserver/auth"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/authserver/redirect"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
 )
 
 func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
 
 	id := r.URL.Query().Get("id")
-	getlistingbyidRequestType := r.URL.Query().Get("getlistingbyid")
+	//getlistingbyidRequestType := r.URL.Query().Get("getlistingbyid")
 
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {

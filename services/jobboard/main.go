@@ -4,8 +4,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/handlers"
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/server"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/handlers"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/server"
 )
 
 //TODO: Call the Auth service once it is online
