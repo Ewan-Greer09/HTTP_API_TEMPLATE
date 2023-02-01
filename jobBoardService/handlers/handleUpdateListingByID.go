@@ -25,13 +25,6 @@ func (h *Handler) HandleUpdateListingByID(storage map[string]types.JobListing) h
 			return
 		}
 
-		err = h.HandleValidateRequest(&newListing)
-		if err != nil {
-			log.Println("Error validating request body")
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
 		storage[id] = newListing
 		w.WriteHeader(http.StatusOK)
 	}

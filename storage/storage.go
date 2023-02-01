@@ -13,31 +13,32 @@ type Storage struct {
 	storage map[string]types.JobListing
 }
 
+// Mock data
 func PopulateStorage() map[string]types.JobListing {
 	storage = map[string]types.JobListing{
 		"123": {
-			JobID:          "123",
-			JobTitle:       "Software Engineer",
-			JobDescription: "Write code",
-			JobLocation:    "London",
-			JobSalary:      100000,
-			JobCompany:     "Google",
+			ID:          "123",
+			Position:    "Software Engineer",
+			Description: "Write code",
+			Location:    "London",
+			Pay:         100000,
+			Company:     "Google",
 		},
 		"456": {
-			JobID:          "456",
-			JobTitle:       "Software Engineer",
-			JobDescription: "Write code",
-			JobLocation:    "London",
-			JobSalary:      100000,
-			JobCompany:     "Google",
+			ID:          "456",
+			Position:    "Software Engineer",
+			Description: "Write code",
+			Location:    "London",
+			Pay:         100000,
+			Company:     "Google",
 		},
 		"789": {
-			JobID:          "789",
-			JobTitle:       "Software Engineer",
-			JobDescription: "Write code",
-			JobLocation:    "London",
-			JobSalary:      100000,
-			JobCompany:     "Google",
+			ID:          "789",
+			Position:    "Software Engineer",
+			Description: "Write code",
+			Location:    "London",
+			Pay:         100000,
+			Company:     "Google",
 		},
 	}
 	log.Println("Populated storage")
