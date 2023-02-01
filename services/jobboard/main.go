@@ -6,6 +6,7 @@ import (
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/handlers"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/server"
+
 )
 
 //TODO: Call the Auth service once it is online

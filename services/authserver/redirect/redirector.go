@@ -1,9 +1,9 @@
 package redirect
 
 import (
+
 	"encoding/json"
 	"errors"
-	"log"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
 	"github.com/carlmjohnson/requests"
@@ -42,9 +42,11 @@ func RedirectRequestToAPI(request types.JobListing, requestType, id string) erro
 			BodyJSON(&requestJSON).
 			Fetch(nil)
 
+
 		if err != nil {
 			return err
 		}
+
 	case "createlistingyid":
 		log.Println("Redirecting getlistingbyid request to API")
 		err := requests.
@@ -54,6 +56,7 @@ func RedirectRequestToAPI(request types.JobListing, requestType, id string) erro
 			BodyJSON(&requestJSON).
 			Fetch(nil)
 
+
 		if err != nil {
 			return err
 		}
@@ -62,5 +65,6 @@ func RedirectRequestToAPI(request types.JobListing, requestType, id string) erro
 	}
 
 	log.Println("Redirecting request to API")
+
 	return nil
 }

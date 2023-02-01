@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 	"time"
-
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/validationserver/handlers"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )

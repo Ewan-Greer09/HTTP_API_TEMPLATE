@@ -6,13 +6,16 @@ import (
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/authserver/auth"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/authserver/redirect"
+
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
 )
 
 func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
 
 	id := r.URL.Query().Get("id")
+
 	//getlistingbyidRequestType := r.URL.Query().Get("getlistingbyid")
+
 
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
