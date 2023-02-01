@@ -8,7 +8,8 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/jobBoardService/handlers"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/handlers"
+
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/storage"
 )
 

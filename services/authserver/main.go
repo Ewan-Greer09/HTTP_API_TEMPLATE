@@ -4,12 +4,12 @@ import (
 	"log"
 	"time"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/handlers"
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/server"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/authserver/handlers"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/authserver/server"
 )
 
 const (
-	port       = ":9090"
+	port       = ":3000"
 	listenAddr = "localhost"
 )
 

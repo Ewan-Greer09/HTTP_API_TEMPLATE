@@ -6,8 +6,10 @@ import (
 	"log"
 	"net/http"
 
+
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/validationserver/validators"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/validationService/validators"
+
 )
 
 // HandleValidate is the handler for the /api/validate endpoint

@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/authService/handlers"
+
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/authserver/handlers"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
