@@ -16,7 +16,6 @@ func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
 
 	//getlistingbyidRequestType := r.URL.Query().Get("getlistingbyid")
 
-
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		http.Error(w, "No Authorization Header", http.StatusUnauthorized)
@@ -36,12 +35,15 @@ func (h *Handler) HandleAuthenticate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	jobListing := types.NewJobListingPerams(
-		authRequest.JobListing.JobID,
-		authRequest.JobListing.JobTitle,
-		authRequest.JobListing.JobDescription,
-		authRequest.JobListing.JobLocation,
-		authRequest.JobListing.JobCompany,
-		authRequest.JobListing.JobSalary,
+		authRequest.JobListing.ID,
+		authRequest.JobListing.Position,
+		authRequest.JobListing.Description,
+		authRequest.JobListing.Location,
+		authRequest.JobListing.Company,
+		authRequest.JobListing.Pay,
+		authRequest.JobListing.Salaried,
+		authRequest.JobListing.Remote,
+		authRequest.JobListing.Datafields,
 	)
 
 	err = redirect.RedirectRequestToAPI(jobListing, authRequest.RequestType, id)
