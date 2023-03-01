@@ -14,9 +14,7 @@ type HandlerInterface interface {
 }
 
 func NewHandler() *Handler {
-	return &Handler{
-		HandlerInterface: &Handler{},
-	}
+	return &Handler{}
 }
 
 func handleValidateRequest(listing *types.JobListing) error {
