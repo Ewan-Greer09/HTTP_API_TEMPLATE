@@ -31,6 +31,6 @@ func (h *Handler) HandleCreateListing(storage map[string]types.JobListing) http.
 		storage[newListing.ID] = newListing
 		log.Println("Created new listing: \n", spew.Sdump(newListing))
 
-		w.WriteHeader(http.StatusOK)
+		w.WriteHeader(http.StatusCreated)
 	}
 }
