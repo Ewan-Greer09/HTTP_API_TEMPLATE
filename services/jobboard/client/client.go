@@ -14,6 +14,7 @@ func NewClient() *Client {
 	return &Client{}
 }
 
+// SendValidateRequest sends a request to the validation service to validate the listing
 func (c *Client) SendValidateRequest(listing *types.JobListing) (bool, error) {
 	ctx := context.Background()
 
