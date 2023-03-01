@@ -4,36 +4,34 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
-	"github.com/davecgh/go-spew/spew"
-	"github.com/google/uuid"
 )
 
 func (h *Handler) HandleCreateListing(storage map[string]types.JobListing) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		newListing := types.NewJobListing()
-		err := json.NewDecoder(r.Body).Decode(&newListing)
+		newListing, err := h.CreateNewListing(r, storage)
 		if err != nil {
-			log.Println("Error decoding request body")
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			log.Println("ERROR: ", err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		// Generate a new UUID for the new listing
-		uuid := uuid.New()
-		newListing.ID = uuid.String()
+		err = h.HandleValidateRequest(newListing)
+		if err != nil {
+			log.Println("Error validating request body")
+			errstr := "Error validating request body: Code: " + strconv.FormatInt(400, 10)
+			w.Write([]byte(errstr))
+			return
+		}
 
-		//err = h.HandleValidateRequest(&newListing)
-		//if err != nil {
-		//	log.Println("Error validating request body")
-		//	errstr := "Error validating request body: Code: " + strconv.FormatInt(400, 10)
-		//	w.Write([]byte(errstr))
-		//	return
-		//}
-
-		storage[newListing.ID] = newListing
-		log.Println("Created new listing: \n", spew.Sdump(newListing))
+		err = json.NewEncoder(w).Encode(newListing)
+		if err != nil {
+			log.Println("Error encoding response body")
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 		w.WriteHeader(http.StatusCreated)
 	}
