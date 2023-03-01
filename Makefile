@@ -1,17 +1,11 @@
 #runs main.go and attaches nodemon
-start-jobboard:
-	./start.cmd
+all: run-jobboard run-validationserver run-authserver
 
-start-validationserver:
-	./start-validationserver.cmd
+run-jobboard:
+	nodemon --exec go run /services/jobboard/main.go
 
-start-authserver:
-	./start-authserver.cmd
+run-validationserver:
+	nodemon --exec go run ./services/validationserver/main.go
 
-start-all: start-jobboard start-validationserver start-authserver
-
-build:
-	go build
-
-clean:
-	go clean
+run-authserver:
+	nodemon --exec go run ./services/authserver/main.go

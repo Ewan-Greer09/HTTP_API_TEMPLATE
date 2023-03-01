@@ -1,4 +1,4 @@
-@echo off
+@echo on
 nodemon -e go -x "go run .\jobboard\main.go"
 nodemon -e go -x "go run .\authserver\main.go"
 nodemon -e go -x "go run .\validationserver\main.go"
