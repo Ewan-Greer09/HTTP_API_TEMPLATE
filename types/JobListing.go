@@ -1,25 +1,31 @@
 package types
 
 type JobListing struct {
-	JobID          string  `json:"jobId" Validate:"required"`
-	JobTitle       string  `json:"jobTitle" Validate:"required"`
-	JobDescription string  `json:"jobDescription" Validate:"required"`
-	JobLocation    string  `json:"jobLocation" Validate:"required"`
-	JobSalary      float64 `json:"jobSalary" Validate:"required, numeric"`
-	JobCompany     string  `json:"jobCompany" Validate:"required"`
+	ID          string            `json:"id"`
+	Position    string            `json:"position"`
+	Description string            `json:"description"`
+	Location    string            `json:"location"`
+	Pay         float64           `json:"pay"`
+	Company     string            `json:"company"`
+	Salaried    bool              `json:"salaried"`
+	Remote      bool              `json:"remote"`
+	Datafields  map[string]string `json:"datafields"`
 }
 
 func NewJobListing() JobListing {
 	return JobListing{}
 }
 
-func NewJobListingPerams(jobID, jobTitle, jobDescription, jobLocation, jobCompany string, jobSalary float64) JobListing {
+func NewJobListingPerams(jobID, jobTitle, jobDescription, jobLocation, jobCompany string, jobSalary float64, isSalaried, isRemote bool, metadata map[string]string) JobListing {
 	return JobListing{
-		JobID:          jobID,
-		JobTitle:       jobTitle,
-		JobDescription: jobDescription,
-		JobLocation:    jobLocation,
-		JobSalary:      jobSalary,
-		JobCompany:     jobCompany,
+		ID:          jobID,
+		Position:    jobTitle,
+		Description: jobDescription,
+		Location:    jobLocation,
+		Pay:         jobSalary,
+		Company:     jobCompany,
+		Salaried:    isSalaried,
+		Remote:      isRemote,
+		Datafields:  metadata,
 	}
 }
