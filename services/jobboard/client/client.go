@@ -8,13 +8,13 @@ import (
 	"github.com/carlmjohnson/requests"
 )
 
-type Clinent struct{}
+type Client struct{}
 
-func NewClient() *Clinent {
-	return &Clinent{}
+func NewClient() *Client {
+	return &Client{}
 }
 
-func (c *Clinent) SendValidateRequest(listing *types.JobListing) (bool, error) {
+func (c *Client) SendValidateRequest(listing *types.JobListing) (bool, error) {
 	ctx := context.Background()
 
 	err := requests.URL("http://localhost:3000/api/validate").
