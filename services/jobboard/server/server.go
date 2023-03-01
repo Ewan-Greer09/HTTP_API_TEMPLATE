@@ -35,7 +35,6 @@ func (s *Server) StartServer(h *handlers.Handler) {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
-	router.Use(middleware.Timeout(60 * time.Second))
 
 	router.Route("/api", func(r chi.Router) {
 		r.Get("/ping", h.HandlePing)
