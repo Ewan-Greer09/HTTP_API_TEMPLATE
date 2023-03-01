@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
-	"github.com/davecgh/go-spew/spew"
 	"log"
 	"net/http"
+
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	"github.com/davecgh/go-spew/spew"
+	"github.com/google/uuid"
 )
 
 func (h *Handler) HandleCreateListing(storage map[string]types.JobListing) http.HandlerFunc {
@@ -17,6 +19,10 @@ func (h *Handler) HandleCreateListing(storage map[string]types.JobListing) http.
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+
+		// Generate a new UUID for the new listing
+		uuid := uuid.New()
+		newListing.ID = uuid.String()
 
 		//err = h.HandleValidateRequest(&newListing)
 		//if err != nil {
