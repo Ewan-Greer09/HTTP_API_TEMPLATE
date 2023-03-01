@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/client"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
@@ -44,6 +46,13 @@ func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.Job
 
 	uuid := uuid.New()
 	newListing.ID = uuid.String()
+
+	err = h.HandleValidateRequest(&newListing)
+	if err != nil {
+		log.Println("Error validating request body: " + err.Error())
+		errstr := "Error validating request body: Code: " + strconv.FormatInt(400, 10)
+		return nil, errors.New(errstr)
+	}
 
 	log.Println("Created new listing: \n", spew.Sdump(newListing))
 	storage[newListing.ID] = newListing

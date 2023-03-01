@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
 )
@@ -15,14 +14,6 @@ func (h *Handler) HandleCreateListing(storage map[string]types.JobListing) http.
 		if err != nil {
 			log.Println("ERROR: ", err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		err = h.HandleValidateRequest(newListing)
-		if err != nil {
-			log.Println("Error validating request body")
-			errstr := "Error validating request body: Code: " + strconv.FormatInt(400, 10)
-			w.Write([]byte(errstr))
 			return
 		}
 
