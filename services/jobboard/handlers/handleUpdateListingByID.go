@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
@@ -17,14 +15,6 @@ func (h *Handler) HandleUpdateListingByID(storage map[string]types.JobListing) h
 			return
 		}
 
-		newListing := types.NewJobListing()
-		err := json.NewDecoder(r.Body).Decode(&newListing)
-		if err != nil {
-			log.Println("Error decoding request body")
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
 		// err = h.HandleValidateRequest(&newListing)
 		// if err != nil {
 		// 	log.Println("Error validating request body")
@@ -32,7 +22,11 @@ func (h *Handler) HandleUpdateListingByID(storage map[string]types.JobListing) h
 		// 	return
 		// }
 
-		storage[id] = newListing
+		_, err := h.CreateNewListing(r, storage)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		w.WriteHeader(http.StatusOK)
 	}
 }

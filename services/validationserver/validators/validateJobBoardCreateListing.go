@@ -21,6 +21,7 @@ func ValidateJobBoardPostRequest(jobListing types.JobListing) []Violation {
 	validator := validator.New()
 
 	// TODO: write an algorithm to validate the jobListing
+	// TODO: update function to reflect new types.JobListing struct
 	errs := validator.Var(jobListing.Position, "required")
 	if errs != nil {
 		violations = append(violations, Violation{Field: "JobTitle", Desc: "missing field"})

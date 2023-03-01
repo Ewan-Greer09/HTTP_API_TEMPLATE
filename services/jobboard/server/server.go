@@ -40,7 +40,7 @@ func (s *Server) StartServer(h *handlers.Handler) {
 		r.Get("/ping", h.HandlePing)
 		r.Post("/createlisting", h.HandleCreateListing(storage))
 		r.Get("/getlistingbyid/{id}", h.HandleGetListingByID(storage))
-		r.Post("/deletelistingbyid/{id}", h.HandleDeleteListingByID(storage))
+		r.Delete("/deletelistingbyid/{id}", h.HandleDeleteListingByID(storage))
 		r.Post("/updatelistingbyid/{id}", h.HandleUpdateListingByID(storage))
 	})
 
