@@ -45,5 +45,5 @@ func (s *Server) StartServer(h *handlers.Handler) {
 	})
 
 	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port "+s.Port)
-	log.Fatal(http.ListenAndServe(s.Port, router))
+	log.Fatal(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
 }
