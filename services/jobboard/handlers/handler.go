@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/client"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/config"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
@@ -15,14 +16,17 @@ import (
 
 type Handler struct {
 	HandlerInterface HandlerInterface
+	cfg              config.JobBoardConfig
 }
 
 type HandlerInterface interface {
 	HandleValidateRequest(listing *types.JobListing) error
 }
 
-func NewHandler() *Handler {
-	return &Handler{}
+func NewHandler(cfg config.JobBoardConfig) *Handler {
+	return &Handler{
+		cfg: cfg,
+	}
 }
 
 // TODO: rework so that propper error message is returned to the user

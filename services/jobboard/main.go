@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/config"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/handlers"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/server"
 )
@@ -24,10 +25,12 @@ func main() {
 	timestamp := startTime.Format("2006-01-02 15:04:05.000000")
 	log.Println("Start: ", timestamp)
 
-	handler := handlers.NewHandler()
-	server := server.NewServer(handler, port, listenAddr)
+	cfg := config.Init()
 
-	server.StartServer(handler)
+	JobBoardHandler := handlers.NewHandler(cfg)
+	server := server.NewServer(JobBoardHandler, cfg.Port, cfg.Address)
+
+	server.StartServer(JobBoardHandler)
 
 	log.Println("End: ", time.Now())
 	log.Println("Uptime: ", time.Since(startTime))
