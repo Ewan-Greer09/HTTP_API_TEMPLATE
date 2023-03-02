@@ -25,16 +25,8 @@ func NewHandler() *Handler {
 	return &Handler{}
 }
 
-func (h *Handler) HandleValidateRequest(listing *types.JobListing) error {
-	c := client.NewClient()
-	ok, err := c.SendValidateRequest(listing)
-	if !ok {
-		return err
-	}
-
-	return nil
-}
-
+// TODO: rework so that propper error message is returned to the user
+// ! currently returns an error from decdoing but want to return an error from the validator
 // CreateNewListing creates a new listing from the request body and adds it to the storage
 func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.JobListing) (*types.JobListing, error) {
 	newListing := types.NewJobListing()
@@ -47,7 +39,7 @@ func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.Job
 	uuid := uuid.New()
 	newListing.ID = uuid.String()
 
-	err = h.HandleValidateRequest(&newListing)
+	err = handleValidateRequest(&newListing)
 	if err != nil {
 		log.Println("Error validating request body: " + err.Error())
 		errstr := "Error validating request body: Code: " + strconv.FormatInt(400, 10)
@@ -58,4 +50,14 @@ func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.Job
 	storage[newListing.ID] = newListing
 
 	return &newListing, nil
+}
+
+func handleValidateRequest(listing *types.JobListing) error {
+	c := client.NewClient()
+	ok, err := c.SendValidateRequest(listing)
+	if !ok {
+		return err
+	}
+
+	return nil
 }
