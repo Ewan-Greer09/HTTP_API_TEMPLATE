@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 
+	validation "github.com/go-ozzo/ozzo-validation"
 	viper "github.com/spf13/viper"
 )
 
@@ -31,6 +32,17 @@ func Init() JobBoardConfig {
 		log.Panic(err)
 	}
 
-	// TODO: Config validation
+	err = Config.validate()
+	if err != nil {
+		log.Panic(err)
+	}
+
 	return *Config
+}
+
+func (cfg *JobBoardConfig) validate() error {
+	return validation.ValidateStruct(cfg,
+		validation.Field(&cfg.Port, validation.Required),
+		validation.Field(&cfg.Address, validation.Required),
+	)
 }
