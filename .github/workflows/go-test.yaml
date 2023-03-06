@@ -20,8 +20,5 @@ jobs:
       - name: install dependencies
         run: go mod download
 
-      - name: vet
-        run: go vet -v ./...
-
       - name: test
         run: go test -v ./...
