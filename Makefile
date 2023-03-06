@@ -6,6 +6,3 @@ run-jobboard:
 
 run-validationserver:
 	nodemon --exec go run ./services/validationserver/main.go
-
-run-authserver:
-	nodemon --exec go run ./services/authserver/main.go

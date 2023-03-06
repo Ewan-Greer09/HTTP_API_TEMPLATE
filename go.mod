@@ -13,6 +13,7 @@ require (
 )
 
 require (
+	github.com/enescakir/emoji v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
