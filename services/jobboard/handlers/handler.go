@@ -53,6 +53,29 @@ func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.Job
 	return &newListing, nil
 }
 
+// UpdateJobListing updates a job listing with the request body but preserves the ID
+func (h *Handler) UpdateJobListing(r *http.Request, storage map[string]types.JobListing, oldID string) (types.JobListing, error) {
+	newListing := types.NewJobListing()
+	err := json.NewDecoder(r.Body).Decode(&newListing)
+	if err != nil {
+		log.Println("Error decoding request body")
+		return newListing, err
+	}
+
+	newListing.ID = oldID
+
+	err = handleValidateRequest(&newListing)
+	if err != nil {
+		log.Println(fmt.Sprintf("error validating request body: %s", err.Error()))
+		return newListing, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
+	}
+
+	log.Println("Created new listing: \n", spew.Sdump(newListing))
+	storage[newListing.ID] = newListing
+
+	return newListing, nil
+}
+
 func handleValidateRequest(listing *types.JobListing) error {
 	c := client.NewClient()
 	ok, err := c.SendValidateRequest(listing)
