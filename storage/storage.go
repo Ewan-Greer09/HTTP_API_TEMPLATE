@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	"github.com/enescakir/emoji"
 )
 
 // *TEMP storage for job listings
@@ -40,6 +41,6 @@ func PopulateStorage() map[string]types.JobListing {
 			Company:     "Google",
 		},
 	}
-	log.Println("Populated storage")
+	log.Println(emoji.Rocket, " Populated storage ", emoji.Rocket)
 	return storage
 }

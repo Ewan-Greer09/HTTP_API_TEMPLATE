@@ -4,9 +4,11 @@ import (
 	"log"
 	"time"
 
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/auth"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/config"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/handlers"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/server"
+	"github.com/enescakir/emoji"
 )
 
 //TODO: Call the Auth service once it is online
@@ -23,14 +25,15 @@ const (
 func main() {
 	startTime := time.Now()
 	timestamp := startTime.Format("2006-01-02 15:04:05.000000")
-	log.Println("Start: ", timestamp)
+	log.Println(emoji.StarStruck, "Start: ", timestamp)
 
 	cfg := config.Init()
 
 	JobBoardHandler := handlers.NewHandler(cfg)
-	server := server.NewServer(JobBoardHandler, cfg.Port, cfg.Address)
+	authHandler := auth.NewAuthHandler()
+	server := server.NewServer(JobBoardHandler, authHandler, cfg.Port, cfg.Address)
 
-	server.StartServer(JobBoardHandler)
+	server.StartServer()
 
 	log.Println("End: ", time.Now())
 	log.Println("Uptime: ", time.Since(startTime))
