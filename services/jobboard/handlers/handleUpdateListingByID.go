@@ -16,11 +16,21 @@ func (h *Handler) HandleUpdateListingByID(storage map[string]types.JobListing) h
 			return
 		}
 
+		oldListingId := storage[id].ID
+
 		_, err := h.CreateNewListing(r, storage)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		storage[id] = updateListingID(storage[id], oldListingId)
+
 		w.WriteHeader(http.StatusOK)
 	}
+}
+
+func updateListingID(listing types.JobListing, oldID string) types.JobListing {
+	listing.ID = oldID
+	return listing
 }
