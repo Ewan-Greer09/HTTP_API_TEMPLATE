@@ -3,9 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/client"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/config"
@@ -29,8 +29,6 @@ func NewHandler(cfg config.JobBoardConfig) *Handler {
 	}
 }
 
-// TODO: rework so that propper error message is returned to the user
-// ! currently returns an error from decdoing but want to return an error from the validator
 // CreateNewListing creates a new listing from the request body and adds it to the storage
 func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.JobListing) (*types.JobListing, error) {
 	newListing := types.NewJobListing()
@@ -45,15 +43,37 @@ func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.Job
 
 	err = handleValidateRequest(&newListing)
 	if err != nil {
-		log.Println("Error validating request body: " + err.Error())
-		errstr := "Error validating request body: Code: " + strconv.FormatInt(400, 10)
-		return nil, errors.New(errstr)
+		log.Println(fmt.Sprintf("error validating request body: %s", err.Error()))
+		return nil, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
 	}
 
 	log.Println("Created new listing: \n", spew.Sdump(newListing))
 	storage[newListing.ID] = newListing
 
 	return &newListing, nil
+}
+
+// UpdateJobListing updates a job listing with the request body but preserves the ID
+func (h *Handler) UpdateJobListing(r *http.Request, storage map[string]types.JobListing, oldID string) (types.JobListing, error) {
+	newListing := types.NewJobListing()
+	err := json.NewDecoder(r.Body).Decode(&newListing)
+	if err != nil {
+		log.Println("Error decoding request body")
+		return newListing, err
+	}
+
+	newListing.ID = oldID
+
+	err = handleValidateRequest(&newListing)
+	if err != nil {
+		log.Println(fmt.Sprintf("error validating request body: %s", err.Error()))
+		return newListing, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
+	}
+
+	log.Println("Created new listing: \n", spew.Sdump(newListing))
+	storage[newListing.ID] = newListing
+
+	return newListing, nil
 }
 
 func handleValidateRequest(listing *types.JobListing) error {
