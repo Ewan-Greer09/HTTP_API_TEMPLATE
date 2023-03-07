@@ -29,7 +29,7 @@ func main() {
 	}
 	logger.Info(emoji.Sprintf("Database created :rocket:"))
 
-	JobBoardHandler := handlers.NewHandler(cfg)
+	JobBoardHandler := handlers.NewHandler(cfg, logger)
 
 	authHandler := auth.NewAuthHandler()
 	server := server.NewServer(JobBoardHandler, authHandler, db, logger, cfg.Port, cfg.Address)

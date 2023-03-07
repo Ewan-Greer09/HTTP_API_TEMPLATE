@@ -41,5 +41,5 @@ func (s *Server) StartValidationServer() {
 	})
 
 	s.Logger.Info(emoji.Sprintf("Validation Server started on %s:%s :rocket:", s.ListenAddress, s.Port))
-	s.Logger.Fatal(http.ListenAndServe(s.ListenAddress+s.Port, router))
+	s.Logger.Panic(http.ListenAndServe(s.ListenAddress+s.Port, router))
 }

@@ -10,8 +10,11 @@ require (
 	github.com/enescakir/emoji v1.0.0
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/google/uuid v1.3.0
+	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/spf13/viper v1.15.0
 	gopkg.in/go-playground/validator.v9 v9.31.0
+	gorm.io/driver/sqlite v1.4.4
+	gorm.io/gorm v1.24.6
 )
 
 require (
@@ -23,9 +26,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/lib/pq v1.10.7 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
-	github.com/mattn/go-sqlite3 v1.14.16 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
@@ -39,6 +40,4 @@ require (
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/driver/sqlite v1.4.4 // indirect
-	gorm.io/gorm v1.24.6 // indirect
 )

@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/logger"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/client"

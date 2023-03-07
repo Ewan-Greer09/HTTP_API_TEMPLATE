@@ -42,17 +42,17 @@ func (s *Server) StartServer() {
 	router.Mount("/api", s.Routes(s.db))
 
 	s.logger.Info(emoji.Sprintf("Server started on %s:%s", s.ListenAddress, s.Port))
-	s.logger.Fatal(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
+	s.logger.Panic(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
 }
 
 func (s *Server) Routes(storage *repository.GormDatabase) http.Handler {
 	r := chi.NewRouter()
 
-	r.Post("/listing", s.Handler.HandleCreateListing(s.db))
-	r.Get("/listing/{id}", s.Handler.HandleGetListingByID(s.db))
-	r.Post("/listing/{id}", s.Handler.UpdateJobListing(s.db))
-	r.Delete("/listing/{id}", s.Handler.HandleDeleteListingByID(s.db))
-	r.Get("/listing", s.Handler.HandleAllListings(s.db))
+	r.Post("/listing", s.JobHandler.HandleCreateListing(s.db))
+	r.Get("/listing/{id}", s.JobHandler.HandleGetListingByID(s.db))
+	r.Post("/listing/{id}", s.JobHandler.UpdateJobListing(s.db))
+	r.Delete("/listing/{id}", s.JobHandler.HandleDeleteListingByID(s.db))
+	r.Get("/listing", s.JobHandler.HandleAllListings(s.db))
 
 	r.Mount("/auth", s.AuthHandler.Routes())
 	return r
