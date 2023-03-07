@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"errors"
-
 	_ "github.com/mattn/go-sqlite3"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -11,19 +9,12 @@ import (
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository/models"
 )
 
-var (
-	ErrDuplicate    = errors.New("duplicate entry")
-	ErrNotExist     = errors.New("not found")
-	ErrUpdateFailed = errors.New("update failed")
-	ErrDeleteFailed = errors.New("delete failed")
-)
-
-// This is a database repository
-type SQLDatabase struct {
+type GormDatabase struct {
 	db *gorm.DB
 }
 
-func NewDatabase(logger *logger.Logger) (*SQLDatabase, error) {
+func NewDatabase(logger *logger.Logger) (*GormDatabase, error) {
+	// using default config for now
 	db, err := gorm.Open(sqlite.Open("job_listings.db"), &gorm.Config{})
 	if err != nil {
 		logger.Panic(err)
@@ -37,5 +28,5 @@ func NewDatabase(logger *logger.Logger) (*SQLDatabase, error) {
 		logger.Panic(err)
 	}
 
-	return &SQLDatabase{db: db}, nil
+	return &GormDatabase{db: db}, nil
 }

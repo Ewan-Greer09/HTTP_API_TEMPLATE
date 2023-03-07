@@ -31,7 +31,7 @@ func NewHandler(cfg config.JobBoardConfig) *Handler {
 }
 
 // CreateNewListing creates a new listing from the request body and adds it to the storage
-func (h *Handler) CreateNewListing(r *http.Request, db *repository.SQLDatabase) (*types.JobListing, error) {
+func (h *Handler) CreateNewListing(r *http.Request, db *repository.GormDatabase) (*types.JobListing, error) {
 	newListing := types.NewJobListing()
 	err := json.NewDecoder(r.Body).Decode(&newListing)
 	if err != nil {
@@ -52,29 +52,6 @@ func (h *Handler) CreateNewListing(r *http.Request, db *repository.SQLDatabase) 
 	db.CreateRecord(&newListing)
 
 	return &newListing, nil
-}
-
-// UpdateJobListing updates a job listing with the request body but preserves the ID
-func (h *Handler) UpdateJobListing(r *http.Request, db *repository.SQLDatabase, oldID string) (types.JobListing, error) {
-	newListing := types.NewJobListing()
-	err := json.NewDecoder(r.Body).Decode(&newListing)
-	if err != nil {
-		log.Println("Error decoding request body")
-		return newListing, err
-	}
-
-	newListing.ID = oldID
-
-	err = handleValidateRequest(&newListing)
-	if err != nil {
-		log.Println(fmt.Sprintf("error validating request body: %s", err.Error()))
-		return newListing, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
-	}
-
-	log.Println("Created new listing: \n", spew.Sdump(newListing))
-	db.CreateRecord(&newListing)
-
-	return newListing, nil
 }
 
 func handleValidateRequest(listing *types.JobListing) error {

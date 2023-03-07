@@ -7,12 +7,12 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func (h *Handler) HandleDeleteListingByID(db *repository.SQLDatabase) http.HandlerFunc {
+func (h *Handler) HandleDeleteListingByID(db *repository.GormDatabase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 
-		res := db.GetRecord(id)
-		if res == nil {
+		listing := db.GetRecord(id)
+		if listing == nil {
 			http.Error(w, "Listing does not exist", http.StatusNotFound)
 			return
 		}

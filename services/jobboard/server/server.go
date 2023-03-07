@@ -20,10 +20,10 @@ type Server struct {
 	logger        *logger.Logger
 	Handler       *handlers.Handler
 	AuthHandler   *auth.AuthHandler
-	db            *repository.SQLDatabase
+	db            *repository.GormDatabase
 }
 
-func NewServer(h *handlers.Handler, auth *auth.AuthHandler, db *repository.SQLDatabase, logger *logger.Logger, port, listenAddr string) *Server {
+func NewServer(h *handlers.Handler, auth *auth.AuthHandler, db *repository.GormDatabase, logger *logger.Logger, port, listenAddr string) *Server {
 	return &Server{
 		Port:          port,
 		Handler:       h,
@@ -46,11 +46,11 @@ func (s *Server) StartServer() {
 	log.Fatal(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
 }
 
-func (s *Server) Routes(storage *repository.SQLDatabase) http.Handler {
+func (s *Server) Routes(storage *repository.GormDatabase) http.Handler {
 	r := chi.NewRouter()
 	r.Post("/createlisting", s.Handler.HandleCreateListing(s.db))
 	r.Get("/getlistingbyid/{id}", s.Handler.HandleGetListingByID(s.db))
-	r.Post("/updatelistingbyid/{id}", s.Handler.HandleUpdateListingByID(s.db))
+	r.Post("/updatelistingbyid/{id}", s.Handler.UpdateJobListing(s.db))
 	r.Delete("/deletelistingbyid/{id}", s.Handler.HandleDeleteListingByID(s.db))
 
 	r.Mount("/auth", s.AuthHandler.Routes())

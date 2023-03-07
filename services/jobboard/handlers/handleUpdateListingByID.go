@@ -9,27 +9,19 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func (h *Handler) HandleUpdateListingByID(db *repository.SQLDatabase) http.HandlerFunc {
+func (h *Handler) UpdateJobListing(db *repository.GormDatabase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
-		if listing := db.GetRecord(id); listing == nil {
+
+		listing := db.GetRecord(id)
+		if listing == nil {
 			http.Error(w, "Listing not found", http.StatusNotFound)
 			return
 		}
 
-		listing, err := h.UpdateJobListing(r, db, id)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		db.CreateRecord(&listing)
+		db.UpdateRecord(listing)
 
 		log.Println("Updated listing: \n", spew.Sdump(listing))
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
 
 		w.WriteHeader(http.StatusOK)
 	}

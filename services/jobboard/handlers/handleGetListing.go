@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func (h *Handler) HandleGetListingByID(db *repository.SQLDatabase) http.HandlerFunc {
+func (h *Handler) HandleGetListingByID(db *repository.GormDatabase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 
