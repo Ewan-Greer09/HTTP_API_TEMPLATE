@@ -1,8 +1,7 @@
 package storage
 
 import (
-	"log"
-
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/logger"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
 	"github.com/enescakir/emoji"
 )
@@ -12,6 +11,14 @@ var storage = make(map[string]types.JobListing)
 
 type Storage struct {
 	storage map[string]types.JobListing
+}
+
+// TODO: Implement database storage
+// TODO: update program to use new storage
+func NewStorage() *Storage {
+	return &Storage{
+		storage: PopulateStorage(),
+	}
 }
 
 func PopulateStorage() map[string]types.JobListing {
@@ -41,6 +48,9 @@ func PopulateStorage() map[string]types.JobListing {
 			Company:     "Google",
 		},
 	}
-	log.Println(emoji.Rocket, " Populated storage ", emoji.Rocket)
+
+	logger := logger.NewLogger()
+	logger.Info(emoji.Sprintf("Populated storage with %d job listings :rocket:", len(storage)))
+
 	return storage
 }

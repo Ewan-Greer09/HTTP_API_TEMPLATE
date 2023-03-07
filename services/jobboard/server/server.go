@@ -3,12 +3,12 @@ package server
 import (
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/enescakir/emoji"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/logger"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/auth"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/handlers"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
@@ -19,22 +19,24 @@ import (
 type Server struct {
 	Port          string
 	ListenAddress string
+	logger        *logger.Logger
 	Handler       *handlers.Handler
 	AuthHandler   *auth.AuthHandler
 }
 
-func NewServer(h *handlers.Handler, auth *auth.AuthHandler, port, listenAddr string) *Server {
+func NewServer(h *handlers.Handler, auth *auth.AuthHandler, logger *logger.Logger, port, listenAddr string) *Server {
 	return &Server{
 		Port:          port,
 		Handler:       h,
+		logger:        logger,
 		ListenAddress: listenAddr,
 		AuthHandler:   auth,
 	}
 }
 
 func (s *Server) StartServer() {
-	log.Println(emoji.Airplane, time.Now().Format("2006-01-02 15:04:05.000000"), "Starting HTTP API Template Service...")
-	log.Println(emoji.Fire, "Populating storage...")
+	s.logger.Info(emoji.Sprint("Starting server..."))
+	s.logger.Info(emoji.Sprint("Populating storage..."))
 	storage := storage.PopulateStorage()
 
 	router := chi.NewRouter()
@@ -44,7 +46,7 @@ func (s *Server) StartServer() {
 
 	router.Mount("/api", s.Routes(storage))
 
-	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port :"+s.Port, emoji.Headphone)
+	s.logger.Info(emoji.Sprintf("Server started on %s:%s", s.ListenAddress, s.Port))
 	log.Fatal(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
 }
 
