@@ -5,17 +5,17 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
 	"github.com/go-chi/chi"
 )
 
-func (h *Handler) HandleGetListingByID(storage map[string]types.JobListing) http.HandlerFunc {
+func (h *Handler) HandleGetListingByID(db *repository.SQLDatabase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 
 		// *lookups to be done in seperate function
-		listing, ok := storage[id]
-		if !ok {
+		listing, err := db.GetRecord(id)
+		if err != nil {
 			http.Error(w, "Listing not found", http.StatusNotFound)
 			return
 		}

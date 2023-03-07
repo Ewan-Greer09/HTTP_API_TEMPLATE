@@ -5,12 +5,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
 )
 
-func (h *Handler) HandleCreateListing(storage map[string]types.JobListing) http.HandlerFunc {
+func (h *Handler) HandleCreateListing(db *repository.SQLDatabase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		newListing, err := h.CreateNewListing(r, storage)
+		newListing, err := h.CreateNewListing(r, db)
 		if err != nil {
 			log.Println("ERROR: ", err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
