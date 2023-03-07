@@ -48,10 +48,10 @@ func (s *Server) StartServer() {
 
 func (s *Server) Routes(storage *repository.GormDatabase) http.Handler {
 	r := chi.NewRouter()
-	r.Post("/createlisting", s.Handler.HandleCreateListing(s.db))
-	r.Get("/getlistingbyid/{id}", s.Handler.HandleGetListingByID(s.db))
-	r.Post("/updatelistingbyid/{id}", s.Handler.UpdateJobListing(s.db))
-	r.Delete("/deletelistingbyid/{id}", s.Handler.HandleDeleteListingByID(s.db))
+	r.Post("/listing", s.Handler.HandleCreateListing(s.db))
+	r.Get("/listing/{id}", s.Handler.HandleGetListingByID(s.db))
+	r.Post("/listing/{id}", s.Handler.UpdateJobListing(s.db))
+	r.Delete("/listing/{id}", s.Handler.HandleDeleteListingByID(s.db))
 
 	r.Mount("/auth", s.AuthHandler.Routes())
 	return r
