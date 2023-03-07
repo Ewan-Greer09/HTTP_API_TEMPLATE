@@ -12,6 +12,7 @@ type Logger struct {
 	warnLogger  *log.Logger
 	errorLogger *log.Logger
 	output      *os.File
+	M           map[string]any
 }
 
 // NewLogger creates a new logger
@@ -21,8 +22,11 @@ func NewLogger() *Logger {
 		warnLogger:  log.New(os.Stderr, "WARN: ", log.Ldate|log.Ltime),
 		errorLogger: log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime),
 		output:      os.Stdout,
+		M:           make(map[string]any),
 	}
 }
+
+type M map[string]any
 
 // Info logs an info message to the info logger
 func (l *Logger) Info(v ...interface{}) {
