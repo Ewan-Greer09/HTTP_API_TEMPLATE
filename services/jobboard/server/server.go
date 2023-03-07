@@ -52,6 +52,7 @@ func (s *Server) Routes(storage *repository.GormDatabase) http.Handler {
 	r.Get("/listing/{id}", s.Handler.HandleGetListingByID(s.db))
 	r.Post("/listing/{id}", s.Handler.UpdateJobListing(s.db))
 	r.Delete("/listing/{id}", s.Handler.HandleDeleteListingByID(s.db))
+	r.Get("/listing", s.Handler.HandleAllListings(s.db))
 
 	r.Mount("/auth", s.AuthHandler.Routes())
 	return r
