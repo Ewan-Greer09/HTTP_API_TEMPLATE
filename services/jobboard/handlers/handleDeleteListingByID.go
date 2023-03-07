@@ -3,20 +3,21 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
 	"github.com/go-chi/chi"
 )
 
-func (h *Handler) HandleDeleteListingByID(storage map[string]types.JobListing) http.HandlerFunc {
+func (h *Handler) HandleDeleteListingByID(db *repository.GormDatabase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
-		if _, ok := storage[id]; !ok {
-			http.Error(w, "Listing not found", http.StatusNotFound)
+
+		listing := db.GetRecord(id)
+		if listing == nil {
+			http.Error(w, "Listing does not exist", http.StatusNotFound)
 			return
 		}
-
-		delete(storage, id)
-		h.logger.Info("Listing deleted")
+    
+		db.DeleteRecord(id)
 
 		w.WriteHeader(http.StatusOK)
 	}

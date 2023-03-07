@@ -92,6 +92,7 @@ func (l *Logger) SetOutput(w string) {
 	l.errorLogger.SetOutput(file)
 }
 
-func (l *Logger) Fatal(v ...interface{}) {
-	l.errorLogger.Fatal(v...)
+func (l *Logger) Panic(v ...interface{}) {
+	l.errorLogger.Panic(v...)
+
 }
