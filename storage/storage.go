@@ -50,6 +50,7 @@ func PopulateStorage() map[string]types.JobListing {
 	}
 
 	logger := logger.NewLogger()
+	logger.SetOutput("jobboard.log")
 	logger.Info(emoji.Sprintf("Populated storage with %d job listings :rocket:", len(storage)))
 
 	return storage

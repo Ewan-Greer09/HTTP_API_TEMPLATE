@@ -14,6 +14,7 @@ import (
 
 func main() {
 	logger := logger.NewLogger()
+	logger.SetOutput("jobboard.log")
 
 	logger.Info(emoji.Sprint("Starting Job Board Service :rocket:"))
 
