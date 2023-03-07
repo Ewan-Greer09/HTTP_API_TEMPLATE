@@ -16,6 +16,7 @@ func (h *Handler) HandleDeleteListingByID(storage map[string]types.JobListing) h
 		}
 
 		delete(storage, id)
+		h.logger.Info("Listing deleted")
 
 		w.WriteHeader(http.StatusOK)
 	}

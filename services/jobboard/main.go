@@ -16,11 +16,11 @@ func main() {
 	logger := logger.NewLogger()
 	logger.SetOutput("jobboard.log")
 
-	logger.Info(emoji.Sprint("Starting Job Board Service :rocket:"))
+	logger.Info(emoji.Sprint("------------------ Starting Job Board Service :rocket: ------------------"))
 
 	cfg := config.Init()
 
-	JobBoardHandler := handlers.NewHandler(cfg)
+	JobBoardHandler := handlers.NewHandler(cfg, logger)
 	authHandler := auth.NewAuthHandler()
 	server := server.NewServer(JobBoardHandler, authHandler, logger, cfg.Port, cfg.Address)
 

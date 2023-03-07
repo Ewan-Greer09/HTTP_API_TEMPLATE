@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/logger"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/client"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/config"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
@@ -17,15 +17,17 @@ import (
 type Handler struct {
 	HandlerInterface HandlerInterface
 	cfg              config.JobBoardConfig
+	logger           *logger.Logger
 }
 
 type HandlerInterface interface {
 	HandleValidateRequest(listing *types.JobListing) error
 }
 
-func NewHandler(cfg config.JobBoardConfig) *Handler {
+func NewHandler(cfg config.JobBoardConfig, logger *logger.Logger) *Handler {
 	return &Handler{
-		cfg: cfg,
+		cfg:    cfg,
+		logger: logger,
 	}
 }
 
@@ -34,7 +36,7 @@ func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.Job
 	newListing := types.NewJobListing()
 	err := json.NewDecoder(r.Body).Decode(&newListing)
 	if err != nil {
-		log.Println("Error decoding request body")
+		h.logger.Error("Error decoding request body")
 		return nil, err
 	}
 
@@ -43,11 +45,11 @@ func (h *Handler) CreateNewListing(r *http.Request, storage map[string]types.Job
 
 	err = handleValidateRequest(&newListing)
 	if err != nil {
-		log.Println(fmt.Sprintf("error validating request body: %s", err.Error()))
+		h.logger.Errorf("error validating request body: %s", err.Error())
 		return nil, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
 	}
 
-	log.Println("Created new listing: \n", spew.Sdump(newListing))
+	h.logger.Info("Created new listing: \n", spew.Sdump(newListing))
 	storage[newListing.ID] = newListing
 
 	return &newListing, nil
@@ -58,7 +60,7 @@ func (h *Handler) UpdateJobListing(r *http.Request, storage map[string]types.Job
 	newListing := types.NewJobListing()
 	err := json.NewDecoder(r.Body).Decode(&newListing)
 	if err != nil {
-		log.Println("Error decoding request body")
+		h.logger.Errorf("Error decoding request body: %s", err.Error())
 		return newListing, err
 	}
 
@@ -66,11 +68,11 @@ func (h *Handler) UpdateJobListing(r *http.Request, storage map[string]types.Job
 
 	err = handleValidateRequest(&newListing)
 	if err != nil {
-		log.Println(fmt.Sprintf("error validating request body: %s", err.Error()))
+		h.logger.Errorf("error validating request body: %s", err.Error())
 		return newListing, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
 	}
 
-	log.Println("Created new listing: \n", spew.Sdump(newListing))
+	h.logger.Info("Updated listing: \n", spew.Sdump(newListing))
 	storage[newListing.ID] = newListing
 
 	return newListing, nil
