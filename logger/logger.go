@@ -7,8 +7,6 @@ import (
 
 // This package will be used to log errors and other
 // information to a file, database or service
-
-// TODO: Add text colouring to the output
 type Logger struct {
 	infoLogger  *log.Logger
 	warnLogger  *log.Logger
@@ -19,9 +17,9 @@ type Logger struct {
 // NewLogger creates a new logger
 func NewLogger() *Logger {
 	return &Logger{
-		infoLogger:  log.New(os.Stderr, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile),
-		warnLogger:  log.New(os.Stderr, "WARN: ", log.Ldate|log.Ltime|log.Lshortfile),
-		errorLogger: log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile),
+		infoLogger:  log.New(os.Stderr, "INFO: ", log.Ldate|log.Ltime),
+		warnLogger:  log.New(os.Stderr, "WARN: ", log.Ldate|log.Ltime),
+		errorLogger: log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime),
 		output:      os.Stdout,
 	}
 }

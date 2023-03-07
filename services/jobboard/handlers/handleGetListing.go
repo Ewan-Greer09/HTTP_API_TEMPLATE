@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
@@ -22,7 +21,7 @@ func (h *Handler) HandleGetListingByID(storage map[string]types.JobListing) http
 
 		parsedListing, err := json.Marshal(listing)
 		if err != nil {
-			log.Println("Error parsing listing")
+			h.logger.Error("Error parsing listing")
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}

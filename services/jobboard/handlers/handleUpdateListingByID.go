@@ -1,11 +1,9 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/go-chi/chi"
 )
 
@@ -25,7 +23,7 @@ func (h *Handler) HandleUpdateListingByID(storage map[string]types.JobListing) h
 
 		storage[id] = listing
 
-		log.Println("Updated listing: \n", spew.Sdump(storage[id]))
+		h.logger.Info("Listing updated")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
