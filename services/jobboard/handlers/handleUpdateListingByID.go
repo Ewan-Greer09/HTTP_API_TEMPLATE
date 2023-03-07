@@ -12,7 +12,7 @@ import (
 func (h *Handler) HandleUpdateListingByID(db *repository.SQLDatabase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
-		if _, err := db.GetRecord(id); err != nil {
+		if listing := db.GetRecord(id); listing == nil {
 			http.Error(w, "Listing not found", http.StatusNotFound)
 			return
 		}

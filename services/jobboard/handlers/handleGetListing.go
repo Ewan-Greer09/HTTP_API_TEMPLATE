@@ -13,10 +13,9 @@ func (h *Handler) HandleGetListingByID(db *repository.SQLDatabase) http.HandlerF
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 
-		// *lookups to be done in seperate function
-		listing, err := db.GetRecord(id)
-		if err != nil {
-			http.Error(w, "Listing not found", http.StatusNotFound)
+		listing := db.GetRecord(id)
+		if listing == nil {
+			http.Error(w, "Listing does not exist", http.StatusNotFound)
 			return
 		}
 

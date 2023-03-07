@@ -89,3 +89,7 @@ func (l *Logger) SetOutput(w string) {
 	l.warnLogger.SetOutput(file)
 	l.errorLogger.SetOutput(file)
 }
+
+func (l *Logger) Panic(v ...interface{}) {
+	l.errorLogger.Panic(v...)
+}
