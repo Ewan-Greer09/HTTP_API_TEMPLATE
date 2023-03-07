@@ -1,12 +1,10 @@
 package main
 
 import (
-	"log"
-	"time"
-
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/logger"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/validationserver/handlers"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/validationserver/server"
-
+	"github.com/enescakir/emoji"
 )
 
 //TODO: Move to a Docker container once it is online
@@ -18,15 +16,15 @@ const (
 )
 
 func main() {
-	startTime := time.Now()
-	timestamp := startTime.Format("2006-01-02 15:04:05.000000")
-	log.Println("Start: ", timestamp)
+	logger := logger.NewLogger()
+	logger.SetOutput("validationserver.log")
+
+	logger.Info(emoji.Sprint("Starting Validation Server :rocket:"))
 
 	handler := handlers.NewHandler()
-	server := server.NewServer(handler, port, listenAddress)
+	server := server.NewServer(handler, logger, port, listenAddress)
 
-	server.StartValidationServer(handler)
+	logger.Info(emoji.Sprintf("Validation Server started on %s:%s :rocket:", listenAddress, port))
+	server.StartValidationServer()
 
-	log.Println("End: ", time.Now())
-	log.Println("Uptime: ", time.Since(startTime))
 }

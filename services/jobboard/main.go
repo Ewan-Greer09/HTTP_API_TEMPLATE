@@ -17,7 +17,7 @@ func main() {
 	logger := logger.NewLogger()
 	logger.SetOutput("jobboard.log")
 
-	logger.Info(emoji.Sprint("Starting Job Board Service :rocket:"))
+	logger.Info(emoji.Sprint("------------------ Starting Job Board Service :rocket: ------------------"))
 
 	cfg := config.Init()
 
@@ -30,6 +30,7 @@ func main() {
 	logger.Info(emoji.Sprintf("Database created :rocket:"))
 
 	JobBoardHandler := handlers.NewHandler(cfg)
+
 	authHandler := auth.NewAuthHandler()
 	server := server.NewServer(JobBoardHandler, authHandler, db, logger, cfg.Port, cfg.Address)
 

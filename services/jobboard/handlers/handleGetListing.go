@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
@@ -21,7 +20,7 @@ func (h *Handler) HandleGetListingByID(db *repository.GormDatabase) http.Handler
 
 		parsedListing, err := json.Marshal(listing)
 		if err != nil {
-			log.Println("Error parsing listing")
+			h.logger.Error("Error parsing listing")
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}

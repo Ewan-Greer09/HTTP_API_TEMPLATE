@@ -1,11 +1,12 @@
 package server
 
 import (
-	"log"
 	"net/http"
 	"time"
 
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/logger"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/validationserver/handlers"
+	"github.com/enescakir/emoji"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -15,19 +16,20 @@ type Server struct {
 	Port          string
 	ListenAddress string
 	Handler       *handlers.Handler
+	Logger        *logger.Logger
 }
 
-func NewServer(h *handlers.Handler, port, listenAddr string) *Server {
+func NewServer(h *handlers.Handler, logger *logger.Logger, port, listenAddr string) *Server {
 	return &Server{
 		Port:          port,
 		Handler:       h,
 		ListenAddress: listenAddr,
+		Logger:        logger,
 	}
 }
 
-func (s *Server) StartValidationServer(h *handlers.Handler) {
-	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Starting HTTP API Template Service...")
-	log.Println("Populating storage...")
+func (s *Server) StartValidationServer() {
+	s.Logger.Info(emoji.Sprint("Starting Validation Server :rocket:"))
 
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
@@ -35,9 +37,9 @@ func (s *Server) StartValidationServer(h *handlers.Handler) {
 	router.Use(middleware.Timeout(60 * time.Second))
 
 	router.Route("/api", func(r chi.Router) {
-		r.Post("/validate", h.HandleValidate)
+		r.Post("/validate", s.Handler.HandleValidate)
 	})
 
-	log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "Listening and serving on port "+s.Port)
-	log.Fatal(http.ListenAndServe(s.Port, router))
+	s.Logger.Info(emoji.Sprintf("Validation Server started on %s:%s :rocket:", s.ListenAddress, s.Port))
+	s.Logger.Fatal(http.ListenAndServe(s.ListenAddress+s.Port, router))
 }

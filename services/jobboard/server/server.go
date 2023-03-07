@@ -1,7 +1,6 @@
 package server
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/enescakir/emoji"
@@ -18,7 +17,7 @@ type Server struct {
 	Port          string
 	ListenAddress string
 	logger        *logger.Logger
-	Handler       *handlers.Handler
+	JobHandler    *handlers.Handler
 	AuthHandler   *auth.AuthHandler
 	db            *repository.GormDatabase
 }
@@ -26,7 +25,7 @@ type Server struct {
 func NewServer(h *handlers.Handler, auth *auth.AuthHandler, db *repository.GormDatabase, logger *logger.Logger, port, listenAddr string) *Server {
 	return &Server{
 		Port:          port,
-		Handler:       h,
+		JobHandler:    h,
 		logger:        logger,
 		ListenAddress: listenAddr,
 		AuthHandler:   auth,
@@ -43,11 +42,12 @@ func (s *Server) StartServer() {
 	router.Mount("/api", s.Routes(s.db))
 
 	s.logger.Info(emoji.Sprintf("Server started on %s:%s", s.ListenAddress, s.Port))
-	log.Fatal(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
+	s.logger.Fatal(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
 }
 
 func (s *Server) Routes(storage *repository.GormDatabase) http.Handler {
 	r := chi.NewRouter()
+
 	r.Post("/listing", s.Handler.HandleCreateListing(s.db))
 	r.Get("/listing/{id}", s.Handler.HandleGetListingByID(s.db))
 	r.Post("/listing/{id}", s.Handler.UpdateJobListing(s.db))

@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
@@ -12,14 +11,14 @@ func (h *Handler) HandleCreateListing(db *repository.GormDatabase) http.HandlerF
 	return func(w http.ResponseWriter, r *http.Request) {
 		newListing, err := h.CreateNewListing(r, db)
 		if err != nil {
-			log.Println("ERROR: ", err.Error())
+			h.logger.Error("Error creating new listing")
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
 		err = json.NewEncoder(w).Encode(newListing)
 		if err != nil {
-			log.Println("Error encoding response body")
+			h.logger.Error("Error encoding new listing")
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}

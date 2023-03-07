@@ -16,7 +16,7 @@ func (h *Handler) HandleDeleteListingByID(db *repository.GormDatabase) http.Hand
 			http.Error(w, "Listing does not exist", http.StatusNotFound)
 			return
 		}
-
+    
 		db.DeleteRecord(id)
 
 		w.WriteHeader(http.StatusOK)

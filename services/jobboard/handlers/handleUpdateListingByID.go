@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
 	"github.com/davecgh/go-spew/spew"
+
 	"github.com/go-chi/chi"
 )
 
