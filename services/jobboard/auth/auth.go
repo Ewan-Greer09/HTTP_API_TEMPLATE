@@ -36,7 +36,6 @@ func (h *AuthHandler) generateJWT() (string, error) {
 		return "", err
 	}
 
-
 	return tokenString, nil
 }
 
