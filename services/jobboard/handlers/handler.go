@@ -46,7 +46,7 @@ func (h *Handler) CreateNewListing(r *http.Request, db *repository.GormDatabase)
 	uuid := uuid.New()
 	newListing.ID = uuid.String()
 
-	err = handleValidateRequest(&newListing)
+	_, err = handleValidateRequest(&newListing)
 	if err != nil {
 		h.logger.Errorf("error validating request body: %s", err.Error())
 		return nil, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
@@ -58,12 +58,12 @@ func (h *Handler) CreateNewListing(r *http.Request, db *repository.GormDatabase)
 	return &newListing, nil
 }
 
-func handleValidateRequest(listing *types.JobListing) error {
+func handleValidateRequest(listing *types.JobListing) (string, error) {
 	c := client.NewClient()
-	ok, err := c.SendValidateRequest(listing)
-	if !ok {
-		return err
+	resp, err := c.SendValidateRequest(listing)
+	if err != nil {
+		return "", err
 	}
 
-	return nil
+	return resp.Status, nil
 }

@@ -26,7 +26,21 @@ func (h *Handler) HandleValidate(w http.ResponseWriter, r *http.Request) {
 	log.Println(violations)
 	if len(violations) > 0 {
 		msg := fmt.Sprintf("validation failed: %v", violations)
-		http.Error(w, msg, http.StatusBadRequest)
+
+		response := types.ApiResponse{
+			Code: http.StatusBadRequest,
+			Desc: msg,
+			Data: violations,
+		}
+
+		err = json.NewEncoder(w).Encode(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+
 		return
 	}
 

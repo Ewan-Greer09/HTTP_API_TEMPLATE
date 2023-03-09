@@ -18,25 +18,27 @@ func NewClient() *Client {
 }
 
 // SendValidateRequest sends a request to the validation service to validate the listing
-func (c *Client) SendValidateRequest(listing *types.JobListing) (bool, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+func (c *Client) SendValidateRequest(listing *types.JobListing) (*types.ApiResponse, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	client := NewClientWithRetries(3, 10*time.Second)
+	cl := NewClientWithRetries(3, 10*time.Second)
+	response := &types.ApiResponse{}
 
 	err := requests.URL("http://localhost:3000/api/validate").
-		Client(client).
+		Client(cl).
 		Method(http.MethodPost).
 		Header("content-type", "application/json").
 		CheckStatus(http.StatusOK).
 		BodyJSON(&listing).
+		ToJSON(response).
 		Fetch(ctx)
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	return true, nil
+	return response, nil
 }
 
 // NewClientWithRetries returns a new http client with retry logic
