@@ -39,6 +39,7 @@ func (s *Server) StartServer() {
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Heartbeat("/ping"))
 
+
 	router.Mount("/auth", s.AuthHandler.Routes())
 	router.Mount("/api", s.AuthHandler.VerifyJWT(s.Routes()))
 
