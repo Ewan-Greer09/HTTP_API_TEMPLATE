@@ -39,13 +39,13 @@ func (s *Server) StartServer() {
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Heartbeat("/ping"))
 
-	router.Mount("/api", s.Routes(s.db))
+	router.Mount("/api", s.AuthHandler.VerifyJWT(s.Routes()))
 
 	s.logger.Info(emoji.Sprintf("Server started on %s:%s", s.ListenAddress, s.Port))
 	s.logger.Panic(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
 }
 
-func (s *Server) Routes(storage *repository.GormDatabase) http.Handler {
+func (s *Server) Routes() http.HandlerFunc {
 	r := chi.NewRouter()
 
 	r.Post("/listing", s.JobHandler.HandleCreateListing(s.db))
@@ -55,5 +55,5 @@ func (s *Server) Routes(storage *repository.GormDatabase) http.Handler {
 	r.Get("/listing", s.JobHandler.HandleAllListings(s.db))
 
 	r.Mount("/auth", s.AuthHandler.Routes())
-	return r
+	return r.ServeHTTP
 }
