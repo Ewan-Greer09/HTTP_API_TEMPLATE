@@ -39,6 +39,7 @@ func (s *Server) StartServer() {
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.Heartbeat("/ping"))
 
+	router.Mount("/auth", s.AuthHandler.Routes())
 	router.Mount("/api", s.AuthHandler.VerifyJWT(s.Routes()))
 
 	s.logger.Info(emoji.Sprintf("Server started on %s:%s", s.ListenAddress, s.Port))
@@ -54,6 +55,5 @@ func (s *Server) Routes() http.HandlerFunc {
 	r.Delete("/listing/{id}", s.JobHandler.HandleDeleteListingByID(s.db))
 	r.Get("/listing", s.JobHandler.HandleAllListings(s.db))
 
-	r.Mount("/auth", s.AuthHandler.Routes())
 	return r.ServeHTTP
 }
