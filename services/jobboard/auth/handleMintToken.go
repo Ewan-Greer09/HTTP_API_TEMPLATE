@@ -5,19 +5,15 @@ import (
 	"net/http"
 )
 
-type JWTTokens struct {
-	token  string
-	scopes []string
-}
-
+// HandleMintToken handles the minting of a JWT token
 func (h *AuthHandler) HandleMintToken(w http.ResponseWriter, r *http.Request) {
-	token, err := h.MintToken()
+	token, err := h.generateJWT()
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
 		return
 	}
 
-	log.Println("Minted token: " + token)
-
+	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(token))
 }

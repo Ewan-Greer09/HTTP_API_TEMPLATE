@@ -16,29 +16,15 @@ func NewAuthHandler() *AuthHandler {
 	return &AuthHandler{}
 }
 
-// route: /api/auth
+// route: /auth
 func (h *AuthHandler) Routes() http.Handler {
 	router := chi.NewRouter()
 	router.Post("/minttoken", h.HandleMintToken)
-	//router.Post("/verifytoken", h.HandleVerifyToken)
 	return router
 }
 
-func (h *AuthHandler) HandleAuth() error {
-	return nil
-}
-
-// MintToken creates a new JWT token
-func (h *AuthHandler) MintToken() (string, error) {
-	token, err := generateJWT()
-	if err != nil {
-		return "", err
-	}
-
-	return token, nil
-}
-
-func generateJWT() (string, error) {
+// generateJWT generates a JWT token and returns it as a string
+func (h *AuthHandler) generateJWT() (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
@@ -50,10 +36,11 @@ func generateJWT() (string, error) {
 		return "", err
 	}
 
+
 	return tokenString, nil
 }
 
-// VerifyToken verifies the JWT token
+// VerifyToken verifies the JWT token and returns a 401 if it is invalid
 func (h *AuthHandler) VerifyJWT(next func(w http.ResponseWriter, r *http.Request)) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Header["Token"] != nil {
