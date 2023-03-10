@@ -10,7 +10,6 @@ import (
 	"github.com/enescakir/emoji"
 )
 
-//TODO: Move to a Database once it is online
 //TODO: Move to a Docker container once it is online
 
 func main() {

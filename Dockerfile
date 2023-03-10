@@ -1,37 +1,18 @@
-FROM golang:1.18.3-stretch AS base
+# syntax=docker/dockerfile:1
 
-ENV CGO_ENABLED=1
-ENV GO111MODULE on
-ENV GOOS=linux
-ENV GOARCH=arm64
-
-# System dependencies
-RUN apt-get update \
-    && apt-get install -y build-essential ca-certificates git \
-    && update-ca-certificates
-
-### Development with nodemon and debugger
-FROM base AS dev
+FROM golang:1.16-alpine
 
 WORKDIR /app
 
-COPY go.* ./
+COPY go.mod ./
+COPY go.sum ./
 
-# Dependencies
-RUN go mod download \
-    && go mod verify
+RUN go mod download
 
-RUN go install github.com/go-delve/delve/cmd/dlv@latest
+COPY *.go ./
 
-# Install nodemon
-ENV PATH /opt/communications/node_modules/.bin:$PATH
-
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs npm
-RUN npm install nodemon -g --loglevel notice
+RUN go build -o main .
 
 EXPOSE 8080
-EXPOSE 2345
 
-# as we grow services multiple nodemon files??
-CMD [ "nodemon", "--config", "nodemon.json" ]
+CMD ["/app/main"]

@@ -7,14 +7,15 @@ import (
 	"net/http"
 
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/validationserver/validators"
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	jobboard "github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types/jobboard"
+	validation "github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types/validationSever"
 )
 
 // HandleValidate is the handler for the /api/validate endpoint
 // and passed data to the validator
 func (h *Handler) HandleValidate(w http.ResponseWriter, r *http.Request) {
 	log.Println("HandleValidate called")
-	jobListing := types.JobListing{}
+	jobListing := jobboard.JobListing{}
 
 	err := json.NewDecoder(r.Body).Decode(&jobListing)
 	if err != nil {
@@ -27,7 +28,7 @@ func (h *Handler) HandleValidate(w http.ResponseWriter, r *http.Request) {
 	if len(violations) > 0 {
 		msg := fmt.Sprintf("validation failed: %v", violations)
 
-		response := types.ApiResponse{
+		response := validation.ApiResponse{
 			Code: http.StatusBadRequest,
 			Desc: msg,
 			Data: violations,

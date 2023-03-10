@@ -3,7 +3,7 @@ package repository
 import (
 	"log"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	types "github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types/jobboard"
 )
 
 // creates a new record in the database

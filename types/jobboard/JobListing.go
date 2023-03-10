@@ -1,4 +1,4 @@
-package types
+package jobboard
 
 type JobListing struct {
 	ID          string  `json:"id"`

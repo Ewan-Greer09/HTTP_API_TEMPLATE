@@ -1,0 +1,11 @@
+{
+    "legacyWatch": true,
+    "watch": [
+      "."
+    ],
+    "ext": "go",
+    "ignore": [],
+    "signal": "SIGTERM",
+
+    "exec": "nodemon --exec go run ./services/jobboard/main.go"
+  }

@@ -35,10 +35,11 @@ func NewServer(h *handlers.Handler, auth *auth.AuthHandler, db *repository.GormD
 
 func (s *Server) StartServer() {
 	router := chi.NewRouter()
+
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
+	router.Use(middleware.RequestID)
 	router.Use(middleware.Heartbeat("/ping"))
-
 
 	router.Mount("/auth", s.AuthHandler.Routes())
 	router.Mount("/api", s.AuthHandler.VerifyJWT(s.Routes()))
@@ -47,6 +48,7 @@ func (s *Server) StartServer() {
 	s.logger.Panic(http.ListenAndServe(s.ListenAddress+":"+s.Port, router))
 }
 
+// Routes returns a http.HandlerFunc that handles all the routes for the server
 func (s *Server) Routes() http.HandlerFunc {
 	r := chi.NewRouter()
 

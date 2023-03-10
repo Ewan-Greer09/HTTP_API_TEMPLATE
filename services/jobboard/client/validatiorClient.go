@@ -7,7 +7,8 @@ import (
 
 	"github.com/hashicorp/go-retryablehttp"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	types "github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types/jobboard"
+	validation "github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types/validationSever"
 	"github.com/carlmjohnson/requests"
 )
 
@@ -18,12 +19,12 @@ func NewClient() *Client {
 }
 
 // SendValidateRequest sends a request to the validation service to validate the listing
-func (c *Client) SendValidateRequest(listing *types.JobListing) (*types.ApiResponse, error) {
+func (c *Client) SendValidateRequest(listing *types.JobListing) (*validation.ApiResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	cl := NewClientWithRetries(3, 10*time.Second)
-	response := &types.ApiResponse{}
+	response := &validation.ApiResponse{}
 
 	err := requests.URL("http://localhost:3000/api/validate").
 		Client(cl).

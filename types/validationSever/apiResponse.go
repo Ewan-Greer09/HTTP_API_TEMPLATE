@@ -1,4 +1,4 @@
-package types
+package validationServer
 
 type ApiResponse struct {
 	Code   int         `json:"code"`

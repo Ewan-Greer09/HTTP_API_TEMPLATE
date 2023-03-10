@@ -1,4 +1,4 @@
-package types
+package jobboard
 
 type Request struct {
 	RequestType string     `json:"requestType"`

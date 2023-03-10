@@ -5,7 +5,7 @@ import (
 
 	"gopkg.in/go-playground/validator.v9"
 
-	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types"
+	jobboard "github.com/Ewan-Greer09/HTTP_API_TEMPLATE/types/jobboard"
 )
 
 type Violation struct {
@@ -13,7 +13,7 @@ type Violation struct {
 	Desc  string
 }
 
-func ValidateJobBoardPostRequest(jobListing types.JobListing) []Violation {
+func ValidateJobBoardPostRequest(jobListing jobboard.JobListing) []Violation {
 	var violations []Violation
 
 	log.Println("ValidateJobBoardPostRequest called")

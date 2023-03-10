@@ -16,7 +16,7 @@ func NewAuthHandler() *AuthHandler {
 	return &AuthHandler{}
 }
 
-// route: /auth
+// Routes returns a http.Handler that handles all the routes for the auth router
 func (h *AuthHandler) Routes() http.Handler {
 	router := chi.NewRouter()
 	router.Post("/minttoken", h.HandleMintToken)
@@ -28,7 +28,7 @@ func (h *AuthHandler) generateJWT() (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 24 * 7 * 52).Unix()
 	claims["authorized"] = true
 
 	tokenString, err := token.SignedString(secretkey)
