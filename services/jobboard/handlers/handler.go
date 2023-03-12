@@ -2,8 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"errors"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -45,12 +43,6 @@ func (h *Handler) CreateNewListing(r *http.Request, db *repository.GormDatabase)
 
 	uuid := uuid.New()
 	newListing.ID = uuid.String()
-
-	_, err = handleValidateRequest(&newListing)
-	if err != nil {
-		h.logger.Errorf("error validating request body: %s", err.Error())
-		return nil, errors.New(fmt.Sprintf("error validating request body: %s", err.Error()))
-	}
 
 	log.Println("Created new listing: \n", spew.Sdump(newListing))
 	db.CreateRecord(&newListing)
