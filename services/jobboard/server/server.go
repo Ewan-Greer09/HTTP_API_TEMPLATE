@@ -11,6 +11,7 @@ import (
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/auth"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/handlers"
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/validation"
 )
 
 type Server struct {
@@ -52,7 +53,9 @@ func (s *Server) StartServer() {
 func (s *Server) Routes() http.HandlerFunc {
 	r := chi.NewRouter()
 
-	r.Post("/listing", s.JobHandler.HandleCreateListing(s.db))
+	v := validation.NewValidator()
+
+	r.Post("/listing", v.ValidateJobBoardPostRequest(s.JobHandler.HandleCreateListing(s.db)))
 	r.Get("/listing/{id}", s.JobHandler.HandleGetListingByID(s.db))
 	r.Post("/listing/{id}", s.JobHandler.UpdateJobListing(s.db))
 	r.Delete("/listing/{id}", s.JobHandler.HandleDeleteListingByID(s.db))
