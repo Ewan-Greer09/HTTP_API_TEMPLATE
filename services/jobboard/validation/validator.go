@@ -29,11 +29,10 @@ func (v *Validatior) ValidateJobBoardPostRequest(next func(w http.ResponseWriter
 		}
 
 		err = validation.ValidateStruct(&jobListing,
-			validation.Field(&jobListing.ID, validation.Required, is.UUID),
-			validation.Field(&jobListing.Position, validation.Required, is.Alphanumeric),
+			validation.Field(&jobListing.Position, validation.Required, is.ASCII),
 			validation.Field(&jobListing.Description, validation.Required),
 			validation.Field(&jobListing.Location, validation.Required),
-			validation.Field(&jobListing.Pay, validation.Required, is.Float),
+			validation.Field(&jobListing.Pay, validation.Required, is.Int),
 			validation.Field(&jobListing.Company, validation.Required),
 			validation.Field(&jobListing.Salaried, validation.Required),
 			validation.Field(&jobListing.Remote, validation.Required),
