@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"errors"
 	"net/http"
 	"time"
 
@@ -8,7 +9,11 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+// TODO: add func to generate a new API Key when a user registers
+// TODO: move secretKey and APIKeys to github secrets for security
+
 var secretkey = []byte("SuperSecrtetKey")
+var APIKeys = []string{"1234567890"}
 
 type AuthHandler struct{}
 
@@ -24,7 +29,12 @@ func (h *AuthHandler) Routes() http.Handler {
 }
 
 // generateJWT generates a JWT token and returns it as a string
-func (h *AuthHandler) generateJWT() (string, error) {
+func (h *AuthHandler) generateJWT(key string) (string, error) {
+	err := checkAPIKey(key)
+	if err != nil {
+		return "", errors.New("Invalid API Key")
+	}
+
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
@@ -66,4 +76,13 @@ func (h *AuthHandler) VerifyJWT(next func(w http.ResponseWriter, r *http.Request
 			w.Write([]byte("Unauthorized"))
 		}
 	})
+}
+
+func checkAPIKey(key string) error {
+	for _, k := range APIKeys {
+		if k == key {
+			return nil
+		}
+	}
+	return errors.New("Invalid API Key")
 }
