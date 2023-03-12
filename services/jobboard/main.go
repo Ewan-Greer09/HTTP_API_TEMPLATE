@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/kafka"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/logger"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/repository"
 	"github.com/Ewan-Greer09/HTTP_API_TEMPLATE/services/jobboard/auth"
@@ -19,6 +20,12 @@ func main() {
 	logger.Info(emoji.Sprint("------------------ Starting Job Board Service :rocket: ------------------"))
 
 	cfg := config.Init()
+
+	consumer := kafka.Consumer{}
+	producer := kafka.Producer{}
+
+	go consumer.ConsumeMessage()
+	go producer.PushCommentToQueue("test", []byte("Hello World"))
 
 	logger.Info(emoji.Sprintf("Creating local database :rocket:"))
 	db, err := repository.NewDatabase(logger)
